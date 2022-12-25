@@ -6,13 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nasa_app.R
 import com.example.nasa_app.database.NasaData
-import com.example.nasa_app.detail.DetailFragment
-import com.example.nasa_app.detail.DetailFragmentArgs
 
 class AsteroidAdapter: RecyclerView.Adapter<ConstraintLayoutViewHolder>() {
     var data : List<NasaData> = listOf()
