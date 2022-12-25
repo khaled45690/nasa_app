@@ -31,17 +31,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment,
             )
         )
-        val actionBar  = getActionBar()
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, args: Bundle? ->
-        }
-
         setupActionBarWithNavController(navController , appBarConfiguration)
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
-//        binding.root.findNavController().navigateUp()
         return   binding.root.findNavController().navigateUp() || super.onSupportNavigateUp()
     }
 

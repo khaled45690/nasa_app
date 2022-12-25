@@ -53,7 +53,6 @@ abstract class NasaDatabase : RoomDatabase() {
                             NasaDatabase::class.java,
                             "sleep_history_database"
                     )
-                            // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                             .fallbackToDestructiveMigration()
                             .build()
                     INSTANCE = instance

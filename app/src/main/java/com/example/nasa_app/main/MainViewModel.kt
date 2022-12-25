@@ -49,6 +49,7 @@ class MainViewModel : ViewModel() {
             }
         })
     }
+
 // this is used to load data as soon as possible
     fun getCachedData( binder : FragmentMainBinding){
         val dataSource = NasaDatabase.getInstance(binder.root.context).NasaDatabaseDao
