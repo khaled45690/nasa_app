@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.nasa_app.main.MainFragment"
-        android:label="Asteriod Radar"
+        android:label="Asteroid Radar"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_showDetail"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.nasa_app.detail.DetailFragment"
-        android:label="Asteriod Radar"
+        android:label="Asteroid Radar"
         tools:layout="@layout/fragment_detail">
 
         <argument
