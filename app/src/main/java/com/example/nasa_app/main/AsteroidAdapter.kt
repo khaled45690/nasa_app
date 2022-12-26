@@ -31,11 +31,12 @@ class AsteroidAdapter: RecyclerView.Adapter<ConstraintLayoutViewHolder>() {
             it.findNavController().navigate(MainFragmentDirections.actionShowDetail(item))
         }
 
-        holder.nasaRecordsCardView.contentDescription =  "Click on it to see more details"
+//        holder.nasaRecordsCardView.contentDescription =  "Click on it to see more details"
         holder.closeApproachDateTextView.text = item.closeApproachDate
         holder.codeNameTextView.text = item.codename
         holder.isHazardImageView.setImageResource(if (item.isPotentiallyHazardous) R.drawable.ic_status_potentially_hazardous else R.drawable.ic_status_normal)
         holder.isHazardImageView.contentDescription = if (item.isPotentiallyHazardous) "It's potential hazard" else "It's considered safe on earth"
+
     }
 
 

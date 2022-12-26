@@ -1,15 +1,18 @@
 package com.example.nasa_app.main
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.*
 import com.example.nasa_app.R
 import com.example.nasa_app.api.NasaAPI
 import com.example.nasa_app.api.parseAsteroidsJsonResult
 import com.example.nasa_app.database.NasaData
 import com.example.nasa_app.database.NasaDatabase
 import com.example.nasa_app.databinding.FragmentMainBinding
+import com.example.nasa_app.worker.RefreshDataWorker
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -19,6 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
+import java.util.concurrent.TimeUnit
 
 class MainViewModel : ViewModel() {
 
@@ -26,6 +30,8 @@ class MainViewModel : ViewModel() {
     private var _nasaRecordsList:MutableLiveData<List<NasaData>>  = MutableLiveData<List<NasaData>>().apply{
         value = listOf()
     }
+
+
 
     val nasaRecordedList : LiveData<List<NasaData>> get() = _nasaRecordsList
 
@@ -57,12 +63,18 @@ class MainViewModel : ViewModel() {
         val job: Job = Job()
         val uiScope = CoroutineScope( job)
         uiScope.launch {
-            _nasaRecordsList.postValue(dataSource.getAllRecords())
+            val data : List<NasaData> = dataSource.getAllRecords()
+            if(data.isEmpty()){
+                getNextSevenDaysData(binder)
+            }else{
+                _nasaRecordsList.postValue(data)
+            }
+
 
         }
     }
     // this is used update the data in database and then update it on screen
-    fun getNextSevenDaysData(binder : FragmentMainBinding){
+    private fun getNextSevenDaysData(binder : FragmentMainBinding){
         val startDate = LocalDate.now();
         val endDate = LocalDate.now().plusDays(7)
         val dataSource = NasaDatabase.getInstance(binder.root.context).NasaDatabaseDao
@@ -73,9 +85,6 @@ class MainViewModel : ViewModel() {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 println("Failure: " + t.message)
 
-                uiScope.launch {
-                    _nasaRecordsList.postValue(dataSource.getAllRecords())
-                }
             }
 
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -114,4 +123,29 @@ class MainViewModel : ViewModel() {
 
         }
         }
+
+    fun setupWorker(context: Context){
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresCharging(true)
+            .apply {
+                setRequiresDeviceIdle(true)
+            }.build()
+
+
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(2, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .build()
+
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            RefreshDataWorker.refreshDatabaseRecords,
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingRequest)
     }
+    }
+
+
+

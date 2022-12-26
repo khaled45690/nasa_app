@@ -22,7 +22,8 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
         viewModel.getToDayImage(binding)
         viewModel.getCachedData(binding)
-        viewModel.getNextSevenDaysData(binding)
+        viewModel.setupWorker(binding.root.context)
+
         binding.viewModel = viewModel
 
         val adapter = AsteroidAdapter()
