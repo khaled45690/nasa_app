@@ -64,12 +64,8 @@ class MainViewModel : ViewModel() {
         val uiScope = CoroutineScope( job)
         uiScope.launch {
             val data : List<NasaData> = dataSource.getAllRecords()
-            if(data.isEmpty()){
-                getNextSevenDaysData(binder)
-            }else{
-                _nasaRecordsList.postValue(data)
-            }
-
+            _nasaRecordsList.postValue(data)
+            getNextSevenDaysData(binder)
 
         }
     }
@@ -124,12 +120,13 @@ class MainViewModel : ViewModel() {
         }
         }
 
+    
+// i managed to follow the tutorial but i can't test it to see if it works or no
     fun setupWorker(context: Context){
 
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
-            .setRequiresCharging(true)
             .apply {
                 setRequiresDeviceIdle(true)
             }.build()
