@@ -64,6 +64,8 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<NasaData> {
                     .getBoolean("is_potentially_hazardous_asteroid")
                 val asteroid = NasaData(  id, codename, formattedDate, absoluteMagnitude,
                     estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous)
+                println("asteroid")
+                println(asteroid)
                 asteroidList.add(asteroid)
             }
         }
