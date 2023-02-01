@@ -33,18 +33,6 @@ interface NasaDatabaseDao {
     fun insert(record: List<NasaData>)
 
 
-
-
-    @Update
-    suspend fun update(record: NasaData)
-
-    @Query("SELECT * from nasa_table WHERE recordId = :key")
-    suspend fun getRecordWithId(key: Long): NasaData
-
-    @Query("DELETE from nasa_table")
-    suspend fun clear()
-
-
     @Query("SELECT * from nasa_table ORDER BY closeApproachDate ASC")
     suspend fun getAllRecords(): List<NasaData>
 

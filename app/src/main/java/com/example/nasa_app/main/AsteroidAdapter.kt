@@ -19,6 +19,7 @@ class AsteroidAdapter: RecyclerView.Adapter<ConstraintLayoutViewHolder>() {
         notifyDataSetChanged()
     }
     override fun getItemCount() = data.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConstraintLayoutViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.nasa_records_card_view, parent, false)

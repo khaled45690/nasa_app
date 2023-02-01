@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,7 @@ interface NasaAPIServices {
     @GET("planetary/apod?api_key=${Constants.Nasa_Token}")
     fun getImageData():
             Call<String>
+
 }
 object  NasaAPI {
     val retrofitService : NasaAPIServices by lazy {
@@ -64,8 +66,6 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<NasaData> {
                     .getBoolean("is_potentially_hazardous_asteroid")
                 val asteroid = NasaData(  id, codename, formattedDate, absoluteMagnitude,
                     estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous)
-                println("asteroid")
-                println(asteroid)
                 asteroidList.add(asteroid)
             }
         }

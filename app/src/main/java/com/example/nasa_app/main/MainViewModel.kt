@@ -18,9 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.*
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
@@ -35,7 +33,7 @@ class MainViewModel : ViewModel() {
 
     val nasaRecordedList : LiveData<List<NasaData>> get() = _nasaRecordsList
 
-    fun getToDayImage( binder : FragmentMainBinding){
+     fun getToDayImage(binder : FragmentMainBinding) {
          NasaAPI.retrofitService.getImageData().enqueue( object:
             Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
@@ -44,14 +42,13 @@ class MainViewModel : ViewModel() {
 
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val dataList  = JSONObject(response.body())
-                println(dataList)
+
                 binder.activityMainImageOfTheDay.contentDescription = dataList["explanation"].toString()
                 binder.activityMainImageOfTheDay
                 Picasso.with(binder.root.context)
                     .load(Uri.parse(dataList["url"] as String?))
                     .fit()
                     .into(binder.activityMainImageOfTheDay)
-
             }
         })
     }
